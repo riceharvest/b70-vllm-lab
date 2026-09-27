@@ -376,7 +376,7 @@ headers; the probe segfaults. Use `torch.xpu.mem_get_info(0)` via
 
 ---
 
-## F-008 — Xe2 grouped-GEMM tile counter is allocated uninitialized (P2, FIXED upstream)
+## F-014 — Xe2 grouped-GEMM tile counter is allocated uninitialized (P2, FIXED upstream)
 
 **Status: CONFIRMED in source and in the shipped binary. Already fixed upstream
 (#586) and shipped to PyPI. Not filed — would have been a duplicate.**
@@ -605,7 +605,7 @@ VRAM: 30.88 GiB free of 31.89 GiB (desktop holds ~1.0 GiB).
 
 ---
 
-## F-009 — GPU lane contention: two capsules ran concurrently (ORCHESTRATION FAILURE)
+## F-013 — GPU lane contention: two capsules ran concurrently (ORCHESTRATION FAILURE)
 
 **Status: root-caused, prevented by tooling.**
 

@@ -12,7 +12,7 @@ OOM each other mid-run. Numbers from a contended run are **junk, not merely
 imprecise** — they are worse than no number, because they look real.
 
 This actually happened on 2026-09-27: two agents ran capsules concurrently and
-held 9.18 GiB between them. See FINDINGS.md F-009.
+held 9.18 GiB between them. See FINDINGS.md F-013.
 
 ## How to run GPU work — always this way
 
