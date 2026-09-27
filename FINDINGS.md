@@ -17,11 +17,45 @@ Observed:
 - ~2 GB of `nvidia-*`, `nvidia-cutlass-dsl*`, `flashinfer-python` pulled in
 - CUDA `triton==3.8.0` installed alongside `triton-xpu==3.7.2`, shadowing it
 - vLLM logs `triton not found; flop counting will not work for triton kernels`
-- `vllm.platforms.current_platform` resolves to **`None`** — the CUDA wheel
-  ships no XPU platform plugin, so nothing selects the B70
+- `vllm.platforms.current_platform` resolves to **`None`** — see below
 
 The trap: `torch.xpu.is_available()` still returns `True` afterwards, so a
 naive health check passes. **Check `current_platform`, not torch.**
+
+Why `current_platform` is `None` with the CUDA wheel: the XPU platform gate
+(`vllm/platforms/__init__.py::xpu_platform_plugin`) is purely
+
+```python
+if hasattr(torch, "xpu") and torch.xpu.is_available():
+    is_xpu = True
+```
+
+A CUDA torch still *has* a `torch.xpu` attribute and may report available, but
+without the XPU platform plugin resolving, `current_platform` stays `None` and
+nothing selects the B70.
+
+### Probe gotcha when checking this
+
+Do **not** verify with `current_platform.device_name`. Accessing it can return
+`None`/warn (`does not have 'device_name' attribute`) even on a perfectly good
+XPU install, because `device_name` lives on the resolved subclass, not the
+`Platform` base. That produced one false "still broken" reading for me.
+
+Verify with either of these instead:
+
+```bash
+# best
+uv pip list --python /mnt/ssd/b70-venv/bin/python | grep -iE '^(vllm|torch|triton|vllm-xpu-kernels)'
+# expect: vllm 0.30.0+xpu, torch 2.13.0+xpu, triton 3.7.2+xpu, vllm-xpu-kernels 0.1.14.1
+
+# runtime
+python -c "import vllm; from vllm.platforms import current_platform as c; print(c.device_type, c.is_xpu())"
+# expect: xpu True
+```
+
+Confirmed-good state of the current venv: `vllm 0.30.0+xpu`, `torch 2.13.0+xpu`,
+`triton 3.7.2+xpu` + `triton-xpu 3.7.2`, `vllm-xpu-kernels 0.1.14.1`, zero
+nvidia/cutlass/flashinfer packages, `current_platform.device_type == 'xpu'`.
 
 Fix: install the XPU wheel from the vLLM GitHub release with both extra indexes.
 See ENVIRONMENT.md. Verified clean: zero nvidia packages, `platform: xpu`.
