@@ -29,7 +29,22 @@ export VLLM_XPU_ENABLE_XPU_GRAPH="${VLLM_XPU_ENABLE_XPU_GRAPH:-1}"
 # exactly what the -devel package ships. Both are staged rootlessly here.
 export CPATH="/home/dario/.local/include${CPATH:+:$CPATH}"
 export LIBRARY_PATH="/home/dario/.local/lib${LIBRARY_PATH:+:$LIBRARY_PATH}"
-export LD_LIBRARY_PATH="/home/dario/.local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Inductor's autotuning child process dlopen()s libze_loader.so, so the runtime
+# path needs our shim -- but we must NOT put oneAPI's libsycl on it (that
+# shadows the system UR loader torch links against). So: unset oneAPI's entries
+# and re-add only ours, rather than blanking the variable with `env -u`.
+_oneapi_ld="${LD_LIBRARY_PATH:-}"
+_clean_ld=""
+IFS=':' read -ra _ldparts <<< "$_oneapi_ld"
+for _p in "${_ldparts[@]}"; do
+  [ -n "$_p" ] || continue
+  case "$_p" in
+    /home/dario/oneapi/*) continue ;;
+    *) _clean_ld="${_clean_ld:+$_clean_ld:}$_p" ;;
+  esac
+done
+export LD_LIBRARY_PATH="/home/dario/.local/lib${_clean_ld:+:$_clean_ld}"
+unset _oneapi_ld _clean_ld _ldparts _p
 
 # icpx needs the oneAPI *compiler* on PATH, but oneAPI's *libraries* must stay
 # off LD_LIBRARY_PATH (they shadow the system UR loader torch links against).
@@ -42,7 +57,10 @@ mkdir -p "$LAB/results"
 OUT="$LAB/results/first_light.json"
 LOG="$LAB/results/first_light.log"
 
-env -u LD_LIBRARY_PATH "$PY" "$LAB/capsules/001_first_light.py" 2>&1 | tee "$LOG"
+# LD_LIBRARY_PATH is already sanitised above (oneAPI entries removed, our L0
+# shim kept), so do NOT use `env -u LD_LIBRARY_PATH` here -- that would strip the
+# shim the Inductor child needs to dlopen libze_loader.so.
+"$PY" "$LAB/capsules/001_first_light.py" 2>&1 | tee "$LOG"
 rc=${PIPESTATUS[0]}
 
 echo "===CAPSULE_EXIT=$rc==="
