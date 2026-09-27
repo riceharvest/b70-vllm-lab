@@ -682,3 +682,36 @@ system that must stay interactive.**
 The lesson is not "fewer agents, slower." It is that the scarce resources are
 BOTH the GPU and the host's ability to stay responsive, and both have to be
 budgeted explicitly.
+
+---
+
+## F-016 — AWQ MoE `MoeWNA16Config` capability gate: ALREADY FIXED UPSTREAM (dedup win)
+
+**Status: NOT a new bug. Do not patch. Verified before wasting a B70 slot.**
+
+The XPU AWQ-MoE crash from `torch.cuda.get_device_capability()` mis-gating is
+already tracked and already has a fix in flight:
+
+- **vllm-project/vllm#54350** (OPEN) — `[Bug]: [XPU] moe_wna16 AWQ fallback
+  compares CUDA device_capability, always -1 on XPU`
+- **vllm-project/vllm#54391** (OPEN, not merged) — `[Bugfix][XPU] Skip the CUDA
+  capability gate in MoeWNA16Config on XPU`
+
+Confirmed on the B70, not inferred:
+
+```
+get_device_capability()          -> None
+torch.cuda.is_available()        -> False
+torch.cuda.get_device_capability() -> AssertionError: Torch not compiled with CUDA enabled
+```
+
+Note the sharper detail: the capability call returns `None`, but the *direct*
+`torch.cuda.get_device_capability()` **raises**. So code that guards with
+`if capability is None` is safe, while code that calls it directly is not. That
+distinction matters when reviewing #54391 — the patch must skip the call, not
+merely compare its result.
+
+**Lesson (this is the second time):** an agent that checks for an existing issue
+before writing a patch just saved a B70 slot and a duplicate PR. The first
+instance was XPU-graph-defaults (already merged as #51600). Check
+`issues *and* open PRs *and* recent merges before implementing anything.
