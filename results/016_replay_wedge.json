@@ -1,0 +1,47 @@
+{
+  "probe": "016_replay_wedge",
+  "cases": [
+    {
+      "case": "D_baseline_replay",
+      "returncode": 0,
+      "timed_out": false,
+      "capturing_after_capture_end": false,
+      "y": 2.0,
+      "ok": true,
+      "note": "control arm: closed capture replays correctly"
+    },
+    {
+      "case": "A_replay_during_capture",
+      "returncode": 0,
+      "timed_out": false,
+      "capturing_after_first_capture": false,
+      "capturing_inside_open_capture": true,
+      "precondition_reached": true,
+      "replay_outcome": "raised",
+      "replay_error": "RuntimeError: Cannot prepare for replay during capturing stage. during XPU graph capture. If you need this call to be captured, please file an issue. Current xpuStreamCaptureStatus: Recording",
+      "sync_outcome": "RuntimeError: wait cannot be called for a queue which is recording to a command graph.",
+      "ok": true,
+      "note": "if replay_outcome == 'returned' and y1_correct, the queue in recording state did not by itself corrupt or wedge replay on a single device"
+    },
+    {
+      "case": "B_capture_state_probe",
+      "returncode": 0,
+      "timed_out": false,
+      "outside_capture": false,
+      "inside_capture": true,
+      "after_capture_end": false,
+      "ok": true,
+      "warnings": [
+        "UserWarning: The XPU Graph is empty. This usually means that the graph was attempted to be captured on wrong device or stream. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/xpu/XPUGraph.cpp:138.)"
+      ]
+    },
+    {
+      "case": "C_second_capture_same_pool",
+      "returncode": 0,
+      "timed_out": false,
+      "second_capture_outcome": "RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \"/__w/pytorch/pytorch/c10/xpu/XPUCachingAllocator.cpp\":1330, please report a bug to PyTorch. ",
+      "ok": true
+    }
+  ],
+  "wedged": []
+}

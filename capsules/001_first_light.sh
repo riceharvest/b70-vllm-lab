@@ -57,6 +57,18 @@ mkdir -p "$LAB/results"
 OUT="$LAB/results/first_light.json"
 LOG="$LAB/results/first_light.log"
 
+# The B70 is a SINGLE lane. Two capsules at once contend for VRAM, distort each
+# other's timings, and can OOM each other -- producing numbers that are junk
+# rather than merely imprecise. Every GPU capsule MUST go through the lock.
+# See tools/with_gpu_lock.sh and FINDINGS.md F-009.
+#
+# --locked is the re-entry marker: without it, take the lane and re-exec.
+if [ "${1:-}" != "--locked" ]; then
+  exec bash "$LAB/tools/with_gpu_lock.sh" --name "001_first_light" \
+    bash "$0" --locked "${@}"
+fi
+shift
+
 # LD_LIBRARY_PATH is already sanitised above (oneAPI entries removed, our L0
 # shim kept), so do NOT use `env -u LD_LIBRARY_PATH` here -- that would strip the
 # shim the Inductor child needs to dlopen libze_loader.so.

@@ -1,0 +1,113 @@
+{
+  "probe": "013b_hostalloc_bisect",
+  "graphs": 8,
+  "cases": [
+    {
+      "case": "A_recapture_keep_graphs",
+      "returncode": 0,
+      "assert_fired": false,
+      "assert": "",
+      "cfg": {
+        "recapture": true,
+        "keep": true,
+        "empty": false,
+        "new_pool": false,
+        "use_pool": true,
+        "reset": false
+      },
+      "n_graphs": 8,
+      "round1_cost_mib": 19.016,
+      "released_before_round2_mib": 0.0,
+      "round2_cost_mib": 9.52,
+      "ok": true
+    },
+    {
+      "case": "B_recapture_del_noempty",
+      "returncode": 0,
+      "assert_fired": true,
+      "assert": "===CHILD_JSON==={\"ok\": false, \"error\": \"RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \\\"/__w/pytorch/pytorch/aten/src/ATen/core/Ca",
+      "ok": false,
+      "error": "RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \"/__w/pytorch/pytorch/aten/src/ATen/core/CachingHostAllocator.h\":815, please report a bug to PyTorch. ",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 151, in main\n    child(args.child, args.graphs)\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 132, in child\n    graphs2 = [do_capture(pool2) for _ in range(n_graphs)]\n               ^^^^^^^^^^^^^^^^^\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 101, in do_capture\n    with torch.xpu.graph(g, pool=pool):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/torch/xpu/graphs.py\", line 197, in __enter__\n    self.xpu_graph.capture_begin(*self.pool)\n  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/torch/xpu/graphs.py\", line 84, in capture_begin\n    super().capture_begin(pool=pool)\nRuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \"/__w/pytorch/pytorch/aten/src/ATen/core/CachingHostAllocator.h\":815, please report a bug to PyTorch. \n"
+    },
+    {
+      "case": "C_recapture_del_empty",
+      "returncode": 0,
+      "assert_fired": true,
+      "assert": "===CHILD_JSON==={\"ok\": false, \"error\": \"RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \\\"/__w/pytorch/pytorch/aten/src/ATen/core/Ca",
+      "ok": false,
+      "error": "RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \"/__w/pytorch/pytorch/aten/src/ATen/core/CachingHostAllocator.h\":815, please report a bug to PyTorch. ",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 151, in main\n    child(args.child, args.graphs)\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 132, in child\n    graphs2 = [do_capture(pool2) for _ in range(n_graphs)]\n               ^^^^^^^^^^^^^^^^^\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 101, in do_capture\n    with torch.xpu.graph(g, pool=pool):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/torch/xpu/graphs.py\", line 197, in __enter__\n    self.xpu_graph.capture_begin(*self.pool)\n  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/torch/xpu/graphs.py\", line 84, in capture_begin\n    super().capture_begin(pool=pool)\nRuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \"/__w/pytorch/pytorch/aten/src/ATen/core/CachingHostAllocator.h\":815, please report a bug to PyTorch. \n"
+    },
+    {
+      "case": "D_recapture_newpool_empty",
+      "returncode": 0,
+      "assert_fired": false,
+      "assert": "",
+      "cfg": {
+        "recapture": true,
+        "keep": false,
+        "empty": true,
+        "new_pool": true,
+        "use_pool": true,
+        "reset": false
+      },
+      "n_graphs": 8,
+      "round1_cost_mib": 19.008,
+      "released_before_round2_mib": 0.062,
+      "round2_cost_mib": 0.0,
+      "ok": true
+    },
+    {
+      "case": "E_capture_only",
+      "returncode": 0,
+      "assert_fired": false,
+      "assert": "",
+      "cfg": {
+        "recapture": false,
+        "keep": true,
+        "empty": false,
+        "new_pool": false,
+        "use_pool": true,
+        "reset": false
+      },
+      "n_graphs": 8,
+      "round1_cost_mib": 19.012,
+      "ok": true,
+      "note": "capture-only control"
+    },
+    {
+      "case": "F_recapture_nopool",
+      "returncode": 0,
+      "assert_fired": false,
+      "assert": "",
+      "cfg": {
+        "recapture": true,
+        "keep": false,
+        "empty": true,
+        "new_pool": false,
+        "use_pool": false,
+        "reset": false
+      },
+      "n_graphs": 8,
+      "round1_cost_mib": 35.016,
+      "released_before_round2_mib": 0.0,
+      "round2_cost_mib": 0.0,
+      "ok": true
+    },
+    {
+      "case": "G_reset_then_recapture",
+      "returncode": 0,
+      "assert_fired": true,
+      "assert": "===CHILD_JSON==={\"ok\": false, \"error\": \"RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \\\"/__w/pytorch/pytorch/aten/src/ATen/core/Ca",
+      "ok": false,
+      "error": "RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \"/__w/pytorch/pytorch/aten/src/ATen/core/CachingHostAllocator.h\":815, please report a bug to PyTorch. ",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 151, in main\n    child(args.child, args.graphs)\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 132, in child\n    graphs2 = [do_capture(pool2) for _ in range(n_graphs)]\n               ^^^^^^^^^^^^^^^^^\n  File \"/mnt/ssd/b70-vllm-lab/capsules/013b_hostalloc_bisect.py\", line 101, in do_capture\n    with torch.xpu.graph(g, pool=pool):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/torch/xpu/graphs.py\", line 197, in __enter__\n    self.xpu_graph.capture_begin(*self.pool)\n  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/torch/xpu/graphs.py\", line 84, in capture_begin\n    super().capture_begin(pool=pool)\nRuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at \"/__w/pytorch/pytorch/aten/src/ATen/core/CachingHostAllocator.h\":815, please report a bug to PyTorch. \n"
+    }
+  ],
+  "assert_cases": [
+    "B_recapture_del_noempty",
+    "C_recapture_del_empty",
+    "G_reset_then_recapture"
+  ]
+}

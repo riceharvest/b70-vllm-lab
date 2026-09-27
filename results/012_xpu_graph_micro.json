@@ -1,0 +1,127 @@
+{
+  "probe": "012_xpu_graph_micro",
+  "tests": [
+    {
+      "test": "t_baseline_capture_replay",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 2.74,
+      "captured": true,
+      "warnings": [],
+      "replay_checks": [
+        {
+          "v": 1.0,
+          "max_abs_err": 0.0,
+          "exact": true
+        },
+        {
+          "v": 3.5,
+          "max_abs_err": 0.0,
+          "exact": true
+        },
+        {
+          "v": -2.25,
+          "max_abs_err": 0.0,
+          "exact": true
+        },
+        {
+          "v": 1000000.0,
+          "max_abs_err": 0.0,
+          "exact": true
+        },
+        {
+          "v": 0.0,
+          "max_abs_err": 0.0,
+          "exact": true
+        }
+      ],
+      "all_replays_bit_exact": true,
+      "ok": true,
+      "stderr_tail": []
+    },
+    {
+      "test": "t_repeat_determinism",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 2.71,
+      "replays": 32,
+      "distinct_signatures": 1,
+      "ok": true,
+      "stderr_tail": []
+    },
+    {
+      "test": "t_many_sizes_one_pool",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 2.72,
+      "captured_shapes": 24,
+      "warnings": [],
+      "pass1_bad": [],
+      "pass2_bad": [],
+      "cross_contamination": false,
+      "ok": true,
+      "stderr_tail": []
+    },
+    {
+      "test": "t_pool_alias",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 2.78,
+      "victims": 64,
+      "victims_corrupted_by_replay": 0,
+      "y_after_replay": 5.0,
+      "y_correct": true,
+      "ok": true,
+      "stderr_tail": []
+    },
+    {
+      "test": "t_prealloc_vs_live_input",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 2.71,
+      "recycled_same_pointer": false,
+      "replacement_value": 99.0,
+      "replacement_corrupted": false,
+      "graph_output": 2.0,
+      "ok": true,
+      "note": "informational. vLLM reuses persistent input buffers so the recycled-pointer path should not be reachable there; this measures whether the hazard exists in the machinery at all.",
+      "stderr_tail": []
+    },
+    {
+      "test": "t_empty_cache_with_live_graph",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 2.58,
+      "y": 4.0,
+      "y_correct": true,
+      "ok": true,
+      "stderr_tail": []
+    },
+    {
+      "test": "t_many_graphs_memory_growth",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 2.63,
+      "graphs": 24,
+      "free_gib_before": 22.849,
+      "free_gib_after_capture": 22.7261,
+      "free_gib_after_replay": 22.7261,
+      "capture_cost_mib": 125.79,
+      "leak_suspected": true,
+      "ok": true,
+      "stderr_tail": []
+    },
+    {
+      "test": "t_capture_reuse_same_stream",
+      "returncode": 0,
+      "timed_out": false,
+      "wall_s": 2.9,
+      "ok": false,
+      "error": "RuntimeError: This XPUGraph instance already owns a captured graph. To capture a new graph, create a new instance.",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/ssd/b70-vllm-lab/capsules/012_xpu_graph_micro.py\", line 498, in child_main\n    TESTS[name](res)\n  File \"/mnt/ssd/b70-vllm-lab/capsules/012_xpu_graph_micro.py\", line 378, in t_capture_reuse_same_stream\n    with torch.xpu.graph(g):\n         ^^^^^^^^^^^^^^^^^^\n  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/torch/xpu/graphs.py\", line 197, in __enter__\n    self.xpu_graph.capture_begin(*self.pool)\n  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/torch/xpu/graphs.py\", line 84, in capture_begin\n    super().capture_begin(pool=pool)\nRuntimeError: This XPUGraph instance already owns a captured graph. To capture a new graph, create a new instance.\n",
+      "stderr_tail": []
+    }
+  ],
+  "passed": 7,
+  "wedged": 0
+}

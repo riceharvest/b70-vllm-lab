@@ -1,0 +1,206 @@
+{
+  "started": "2026-09-27T19:26:24+0200",
+  "torch": "2.13.0+xpu",
+  "xpu_device": "Intel(R) Arc(TM) Pro B70 Graphics",
+  "free_gib": 12.03,
+  "ok": true,
+  "gdn_attention_op_available": true,
+  "gdn_attention_schema": "{'': _xpu_C::gdn_attention(Tensor($0! -> ) core_attn_out, Tensor($1! -> ) z, Tensor projected_states_qkvz, Tensor projected_states_ba, int num_k_heads, int num_v_heads, int head_k_dim, int head_v_dim, Tensor($2! -> ) conv_state, Tensor($3! -> ) ssm_state, Tensor conv_weights, Tensor? conv_bias, str activation, Tensor A_log, Tensor dt_bias, int num_prefills, int num_decodes, int num_spec_decodes, Tensor? has_initial_state, Tensor? non_spec_query_start_loc, Tensor? non_spec_token_indx, Tensor? non_spec_state_indices_tensor, Tensor? spec_query_start_loc, Tensor? spec_token_indx, Tensor? spec_state_indices_tensor, Tensor? num_accepted_tokens, int num_actual_tokens, int tp_size, bool reorder_input) -> ()}",
+  "gdn_attention_default_overload": "_xpu_C::gdn_attention(Tensor($0! -> ) core_attn_out, Tensor($1! -> ) z, Tensor projected_states_qkvz, Tensor projected_states_ba, int num_k_heads, int num_v_heads, int head_k_dim, int head_v_dim, Tensor($2! -> ) conv_state, Tensor($3! -> ) ssm_state, Tensor conv_weights, Tensor? conv_bias, str activation, Tensor A_log, Tensor dt_bias, int num_prefills, int num_decodes, int num_spec_decodes, Tensor? has_initial_state, Tensor? non_spec_query_start_loc, Tensor? non_spec_token_indx, Tensor? non_spec_state_indices_tensor, Tensor? spec_query_start_loc, Tensor? spec_token_indx, Tensor? spec_state_indices_tensor, Tensor? num_accepted_tokens, int num_actual_tokens, int tp_size, bool reorder_input) -> ()",
+  "probe_a": [
+    {
+      "k": 1,
+      "T_rows": 2,
+      "dtype": "torch.bfloat16",
+      "graph": true,
+      "eager_self_consistent": true,
+      "eager_out_sum": 0.142441,
+      "eager_state_sum": 60.76017,
+      "any_nan_eager": false,
+      "replays": 16,
+      "replay_vs_eager_mismatches": 15,
+      "replay_vs_eager_max_abs_diff": 0.0671196,
+      "replay_self_consistent": false,
+      "replay_distinct_outputs": 16,
+      "replay_out_sum_first": 0.142441,
+      "replay_out_sum_last": -0.063012,
+      "any_nan_replay": false
+    },
+    {
+      "k": 2,
+      "T_rows": 3,
+      "dtype": "torch.bfloat16",
+      "graph": true,
+      "eager_self_consistent": false,
+      "eager_out_sum": -0.994351,
+      "eager_state_sum": 109.210243,
+      "any_nan_eager": false,
+      "replays": 16,
+      "replay_vs_eager_mismatches": 15,
+      "replay_vs_eager_max_abs_diff": 0.0559082,
+      "replay_self_consistent": false,
+      "replay_distinct_outputs": 16,
+      "replay_out_sum_first": -0.994351,
+      "replay_out_sum_last": -0.405845,
+      "any_nan_replay": false
+    },
+    {
+      "k": 3,
+      "T_rows": 4,
+      "dtype": "torch.bfloat16",
+      "graph": true,
+      "eager_self_consistent": false,
+      "eager_out_sum": 136163885056.0,
+      "eager_state_sum": 34561484390400.0,
+      "any_nan_eager": false,
+      "replays": 16,
+      "replay_vs_eager_mismatches": 15,
+      "replay_vs_eager_max_abs_diff": 92341796864.0,
+      "replay_self_consistent": false,
+      "replay_distinct_outputs": 16,
+      "replay_out_sum_first": 136163885056.0,
+      "replay_out_sum_last": 6862405632.0,
+      "any_nan_replay": false
+    },
+    {
+      "k": 4,
+      "T_rows": 5,
+      "dtype": "torch.bfloat16",
+      "graph": true,
+      "eager_self_consistent": false,
+      "eager_out_sum": -281.718872,
+      "eager_state_sum": 143489.453125,
+      "any_nan_eager": false,
+      "replays": 16,
+      "replay_vs_eager_mismatches": 15,
+      "replay_vs_eager_max_abs_diff": 1222.0,
+      "replay_self_consistent": false,
+      "replay_distinct_outputs": 13,
+      "replay_out_sum_first": -281.718872,
+      "replay_out_sum_last": 578.365356,
+      "any_nan_replay": false
+    },
+    {
+      "k": 5,
+      "T_rows": 6,
+      "dtype": "torch.bfloat16",
+      "graph": true,
+      "eager_self_consistent": false,
+      "eager_out_sum": 1.342789,
+      "eager_state_sum": 207.210938,
+      "any_nan_eager": false,
+      "replays": 16,
+      "replay_vs_eager_mismatches": 15,
+      "replay_vs_eager_max_abs_diff": 0.07080078,
+      "replay_self_consistent": false,
+      "replay_distinct_outputs": 16,
+      "replay_out_sum_first": 1.342789,
+      "replay_out_sum_last": 1.318919,
+      "any_nan_replay": false
+    },
+    {
+      "k": 6,
+      "T_rows": 7,
+      "dtype": "torch.bfloat16",
+      "graph": true,
+      "eager_self_consistent": false,
+      "eager_out_sum": 0.783745,
+      "eager_state_sum": 177.898956,
+      "any_nan_eager": false,
+      "replays": 16,
+      "replay_vs_eager_mismatches": 16,
+      "replay_vs_eager_max_abs_diff": 0.10839844,
+      "replay_self_consistent": false,
+      "replay_distinct_outputs": 1,
+      "replay_out_sum_first": 0.0,
+      "replay_out_sum_last": 0.0,
+      "any_nan_replay": false
+    }
+  ],
+  "probe_b": {
+    "shapes": [
+      [
+        1,
+        512,
+        512
+      ],
+      [
+        2,
+        512,
+        512
+      ],
+      [
+        4,
+        512,
+        512
+      ],
+      [
+        8,
+        512,
+        512
+      ]
+    ],
+    "graph": true,
+    "cases": [
+      {
+        "shape": [
+          1,
+          512,
+          512
+        ],
+        "eager_sum": -0.14818191528320312,
+        "replay_mismatch_vs_eager": 0,
+        "replay_self_consistent": true,
+        "replay_max_abs_diff": 0.0,
+        "any_nan": false
+      },
+      {
+        "shape": [
+          2,
+          512,
+          512
+        ],
+        "eager_sum": 1.5027313232421875,
+        "replay_mismatch_vs_eager": 0,
+        "replay_self_consistent": true,
+        "replay_max_abs_diff": 0.0,
+        "any_nan": false
+      },
+      {
+        "shape": [
+          4,
+          512,
+          512
+        ],
+        "eager_sum": -9.338380813598633,
+        "replay_mismatch_vs_eager": 0,
+        "replay_self_consistent": true,
+        "replay_max_abs_diff": 0.0,
+        "any_nan": false
+      },
+      {
+        "shape": [
+          8,
+          512,
+          512
+        ],
+        "eager_sum": -8.855499267578125,
+        "replay_mismatch_vs_eager": 0,
+        "replay_self_consistent": true,
+        "replay_max_abs_diff": 0.0,
+        "any_nan": false
+      }
+    ]
+  },
+  "verdict": {
+    "probe_a_ran": true,
+    "probe_b_ran": true,
+    "a_all_eager_self_consistent": false,
+    "a_replay_mismatch_total": 91,
+    "a_replay_self_consistent": false,
+    "a_any_nan": false,
+    "b_replay_mismatch_total": 0,
+    "b_all_self_consistent": true
+  },
+  "finished": "2026-09-27T19:26:26+0200"
+}

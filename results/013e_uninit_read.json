@@ -1,0 +1,449 @@
+{
+  "started": "2026-09-27T19:29:25+0200",
+  "per_k": [
+    {
+      "k": 1,
+      "T": 2,
+      "arms": [
+        {
+          "label": "baseline",
+          "poison": null,
+          "key": [
+            0.1424,
+            60.7602
+          ]
+        },
+        {
+          "label": "poison_1000",
+          "poison": 1000.0,
+          "key": [
+            0.1424,
+            60.7602
+          ]
+        },
+        {
+          "label": "poison_-1000",
+          "poison": -1000.0,
+          "key": [
+            0.1424,
+            60.7602
+          ]
+        },
+        {
+          "label": "poison_25000",
+          "poison": 25000.0,
+          "key": [
+            0.1424,
+            60.7602
+          ]
+        },
+        {
+          "label": "poison_-75000",
+          "poison": -75000.0,
+          "key": [
+            0.1424,
+            60.7602
+          ]
+        },
+        {
+          "label": "poison_1e+06",
+          "poison": 1000000.0,
+          "key": [
+            0.1424,
+            60.7602
+          ]
+        },
+        {
+          "label": "poison_-1e+06",
+          "poison": -1000000.0,
+          "key": [
+            0.1424,
+            60.7602
+          ]
+        },
+        {
+          "label": "control_repeat",
+          "poison": null,
+          "key": [
+            0.1424,
+            60.7602
+          ]
+        }
+      ],
+      "distinct_outputs_across_pool_states": 1,
+      "output_depends_on_pool_contents": false,
+      "control_equals_baseline": true
+    },
+    {
+      "k": 2,
+      "T": 3,
+      "arms": [
+        {
+          "label": "baseline",
+          "poison": null,
+          "key": [
+            -0.9944,
+            109.2102
+          ]
+        },
+        {
+          "label": "poison_1000",
+          "poison": 1000.0,
+          "key": [
+            -0.9944,
+            109.2102
+          ]
+        },
+        {
+          "label": "poison_-1000",
+          "poison": -1000.0,
+          "key": [
+            -0.9944,
+            109.2102
+          ]
+        },
+        {
+          "label": "poison_25000",
+          "poison": 25000.0,
+          "key": [
+            -0.9944,
+            109.2102
+          ]
+        },
+        {
+          "label": "poison_-75000",
+          "poison": -75000.0,
+          "key": [
+            -0.9944,
+            109.2102
+          ]
+        },
+        {
+          "label": "poison_1e+06",
+          "poison": 1000000.0,
+          "key": [
+            -0.9944,
+            109.2102
+          ]
+        },
+        {
+          "label": "poison_-1e+06",
+          "poison": -1000000.0,
+          "key": [
+            -0.9944,
+            109.2102
+          ]
+        },
+        {
+          "label": "control_repeat",
+          "poison": null,
+          "key": [
+            -0.9944,
+            109.2102
+          ]
+        }
+      ],
+      "distinct_outputs_across_pool_states": 1,
+      "output_depends_on_pool_contents": false,
+      "control_equals_baseline": true
+    },
+    {
+      "k": 3,
+      "T": 4,
+      "arms": [
+        {
+          "label": "baseline",
+          "poison": null,
+          "key": [
+            136163885056.0,
+            34561484390400.0
+          ]
+        },
+        {
+          "label": "poison_1000",
+          "poison": 1000.0,
+          "key": [
+            136163885056.0,
+            34561484390400.0
+          ]
+        },
+        {
+          "label": "poison_-1000",
+          "poison": -1000.0,
+          "key": [
+            136163885056.0,
+            34561484390400.0
+          ]
+        },
+        {
+          "label": "poison_25000",
+          "poison": 25000.0,
+          "key": [
+            136163885056.0,
+            34561484390400.0
+          ]
+        },
+        {
+          "label": "poison_-75000",
+          "poison": -75000.0,
+          "key": [
+            136163885056.0,
+            34561484390400.0
+          ]
+        },
+        {
+          "label": "poison_1e+06",
+          "poison": 1000000.0,
+          "key": [
+            136163885056.0,
+            34561484390400.0
+          ]
+        },
+        {
+          "label": "poison_-1e+06",
+          "poison": -1000000.0,
+          "key": [
+            136163885056.0,
+            34561484390400.0
+          ]
+        },
+        {
+          "label": "control_repeat",
+          "poison": null,
+          "key": [
+            136163885056.0,
+            34561484390400.0
+          ]
+        }
+      ],
+      "distinct_outputs_across_pool_states": 1,
+      "output_depends_on_pool_contents": false,
+      "control_equals_baseline": true
+    },
+    {
+      "k": 4,
+      "T": 5,
+      "arms": [
+        {
+          "label": "baseline",
+          "poison": null,
+          "key": [
+            -281.7189,
+            143489.4531
+          ]
+        },
+        {
+          "label": "poison_1000",
+          "poison": 1000.0,
+          "key": [
+            -281.7189,
+            143489.4531
+          ]
+        },
+        {
+          "label": "poison_-1000",
+          "poison": -1000.0,
+          "key": [
+            -281.7189,
+            143489.4531
+          ]
+        },
+        {
+          "label": "poison_25000",
+          "poison": 25000.0,
+          "key": [
+            -281.7189,
+            143489.4531
+          ]
+        },
+        {
+          "label": "poison_-75000",
+          "poison": -75000.0,
+          "key": [
+            -281.7189,
+            143489.4531
+          ]
+        },
+        {
+          "label": "poison_1e+06",
+          "poison": 1000000.0,
+          "key": [
+            -281.7189,
+            143489.4531
+          ]
+        },
+        {
+          "label": "poison_-1e+06",
+          "poison": -1000000.0,
+          "key": [
+            -281.7189,
+            143489.4531
+          ]
+        },
+        {
+          "label": "control_repeat",
+          "poison": null,
+          "key": [
+            -281.7189,
+            143489.4531
+          ]
+        }
+      ],
+      "distinct_outputs_across_pool_states": 1,
+      "output_depends_on_pool_contents": false,
+      "control_equals_baseline": true
+    },
+    {
+      "k": 5,
+      "T": 6,
+      "arms": [
+        {
+          "label": "baseline",
+          "poison": null,
+          "key": [
+            1.3428,
+            207.2109
+          ]
+        },
+        {
+          "label": "poison_1000",
+          "poison": 1000.0,
+          "key": [
+            1.3428,
+            207.2109
+          ]
+        },
+        {
+          "label": "poison_-1000",
+          "poison": -1000.0,
+          "key": [
+            1.3428,
+            207.2109
+          ]
+        },
+        {
+          "label": "poison_25000",
+          "poison": 25000.0,
+          "key": [
+            1.3428,
+            207.2109
+          ]
+        },
+        {
+          "label": "poison_-75000",
+          "poison": -75000.0,
+          "key": [
+            1.3428,
+            207.2109
+          ]
+        },
+        {
+          "label": "poison_1e+06",
+          "poison": 1000000.0,
+          "key": [
+            1.3428,
+            207.2109
+          ]
+        },
+        {
+          "label": "poison_-1e+06",
+          "poison": -1000000.0,
+          "key": [
+            1.3428,
+            207.2109
+          ]
+        },
+        {
+          "label": "control_repeat",
+          "poison": null,
+          "key": [
+            1.3428,
+            207.2109
+          ]
+        }
+      ],
+      "distinct_outputs_across_pool_states": 1,
+      "output_depends_on_pool_contents": false,
+      "control_equals_baseline": true
+    },
+    {
+      "k": 6,
+      "T": 7,
+      "arms": [
+        {
+          "label": "baseline",
+          "poison": null,
+          "key": [
+            0.7837,
+            177.899
+          ]
+        },
+        {
+          "label": "poison_1000",
+          "poison": 1000.0,
+          "key": [
+            0.7837,
+            177.899
+          ]
+        },
+        {
+          "label": "poison_-1000",
+          "poison": -1000.0,
+          "key": [
+            0.7837,
+            177.899
+          ]
+        },
+        {
+          "label": "poison_25000",
+          "poison": 25000.0,
+          "key": [
+            0.7837,
+            177.899
+          ]
+        },
+        {
+          "label": "poison_-75000",
+          "poison": -75000.0,
+          "key": [
+            0.7837,
+            177.899
+          ]
+        },
+        {
+          "label": "poison_1e+06",
+          "poison": 1000000.0,
+          "key": [
+            0.7837,
+            177.899
+          ]
+        },
+        {
+          "label": "poison_-1e+06",
+          "poison": -1000000.0,
+          "key": [
+            0.7837,
+            177.899
+          ]
+        },
+        {
+          "label": "control_repeat",
+          "poison": null,
+          "key": [
+            0.7837,
+            177.899
+          ]
+        }
+      ],
+      "distinct_outputs_across_pool_states": 1,
+      "output_depends_on_pool_contents": false,
+      "control_equals_baseline": true
+    }
+  ],
+  "ok": true,
+  "summary": {
+    "ks_where_output_depends_on_pool": [],
+    "ks_where_control_differs": []
+  },
+  "finished": "2026-09-27T19:29:26+0200"
+}

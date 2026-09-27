@@ -1,0 +1,39 @@
+{
+  "started": "2026-09-27T19:27:16+0200",
+  "k": 3,
+  "ok": true,
+  "step1_inputs_identical": {
+    "core_attn_out": true,
+    "z": true,
+    "projected_states_qkvz": true,
+    "projected_states_ba": true,
+    "conv_state": true,
+    "ssm_state": true,
+    "conv_weights": true,
+    "conv_bias": true,
+    "A_log": true,
+    "dt_bias": true,
+    "spec_query_start_loc": true,
+    "spec_token_indx": true,
+    "spec_state_indices_tensor": true,
+    "num_accepted_tokens": true
+  },
+  "step1_all_identical": true,
+  "step1_nonidentical_keys": [],
+  "step2_output_equal": true,
+  "step2_state_equal": true,
+  "step2_out_max_abs_diff": 0.0,
+  "step2_state_max_abs_diff": 0.0,
+  "step4_calls": 200,
+  "step4_distinct_results": 1,
+  "step4_example_keys": [
+    [
+      136163885056.0,
+      34561484390400.0
+    ]
+  ],
+  "step5_poison_changes_output": true,
+  "step5_zero_sum": 136163885056.0,
+  "step5_poison_sum": 204682035200.0,
+  "finished": "2026-09-27T19:27:18+0200"
+}

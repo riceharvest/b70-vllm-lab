@@ -464,6 +464,126 @@ raises unless `is_xe2_arch() or is_xe3_arch()`; B70 is `intel_gpu_bmg_g31`, and
 
 ---
 
+## F-009 — A graph memory pool id is PERMANENTLY unusable after release (P1) — FILED pytorch/pytorch#198794
+
+**Status: root-caused, minimal repro (1 graph, ~5 s, no vLLM), FILED upstream as
+[pytorch/pytorch#198794](https://github.com/pytorch/pytorch/issues/198794).**
+
+Trigger: capture a graph into pool P → drop every graph captured into P →
+capture into P again. `empty_cache()` is **not** required.
+
+```
+RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at
+"/__w/pytorch/pytorch/aten/src/ATen/core/CachingHostAllocator.h":815,
+please report a bug to PyTorch.
+```
+
+Root cause — `CachingHostAllocator.h:811-830`: `release_pool` decrements
+`use_count` to 0 and inserts into `graph_pools_freeable_`, but **never erases
+from `graph_pools_`**. A later acquire finds the entry, takes the `else` branch,
+and asserts `use_count > 0` — false by construction. It is a **one-way latch**,
+not a race and not a leak. Same shape in `c10/xpu/XPUCachingAllocator.cpp`
+(`releasePool`, observed at `:1330`).
+
+Release path is `XPUGraphImpl::reset()` (called by `~XPUGraphImpl`), which does
+`XPUCachingAllocator::releasePool(...)` **and** `HostAllocator(kXPU)->release_pool(...)`.
+
+A fresh `graph_pool_handle()` avoids it — each call returns a new id
+(verified: 5 calls → `(0,1) (0,2) (0,3) (0,4) (0,5)`).
+
+**vLLM is exposed and already knows.** `interface.py:174,1174-1181` caches one
+pool as a **class attribute for the process lifetime**, and
+`grep -rn "_global_graph_pool = None"` over the whole tree returns **nothing** —
+so engine A's pool id is handed to engine B in the same process. Measured
+(arm D): first call mints `(0,1)`, 2nd and 3rd return `(0,1)`.
+
+`vllm/v1/worker/gpu/cudagraph_utils.py:871-876` carries a workaround quoting
+this assert verbatim, so the defect is **acknowledged upstream**. It fixes the
+profiling site only. **Do not file this against vLLM — it would be a
+duplicate of that acknowledged workaround.** It belongs in pytorch, and is now
+filed there.
+
+---
+
+## F-010 — `replay()` fails when the current queue is `recording`: #58388's mechanism, single B70, no collective (P1) — commented on vllm#54698
+
+**Status: mechanism reproduced on ONE B70. The #54698 spin itself NOT
+reproduced.** Comment:
+[#54698 comment](https://github.com/vllm-project/vllm/issues/54698#issuecomment-5858148279)
+
+#58388 showed a oneCCL collective can leave the current stream's queue in
+`recording`, after which the next `replay()` dies in `XPUGeneratorImpl`. The
+*collective* is multi-GPU; the *precondition* is a queue state. Holding a capture
+open and replaying a closed graph reproduces it with **no collective**:
+
+```
+RuntimeError: Cannot prepare for replay during capturing stage. ... Current
+xpuStreamCaptureStatus: Recording
+RuntimeError: wait cannot be called for a queue which is recording to a command graph.
+```
+
+Character-for-character the #58388 message. **So the failure condition is queue
+state, not device count** — which makes the class testable without a 2x-B70 rig.
+
+**It raises in milliseconds; it does not spin.** #54698's symptom is a 100%-CPU
+infinite spin. Both remain open; do not conflate them.
+
+Two facts worth carrying:
+- `XPUGraphImpl::replay()` submits to **`getCurrentXPUStream()`'s queue**, not
+  the capture queue — the capture invariant is keyed on `capture_stream_`, the
+  submit is not.
+- **torch 2.13 is still on the SYCL graph path** (`libtorch_xpu.so` has zero
+  `enable_native_recording` occurrences), so #51600's native-recording fix
+  cannot be validated on this box. `torch/xpu/graphs.py:107` is
+  `super().replay()` in both 2.13 and 2.14.
+
+---
+
+## F-011 — Graph capture memory: ~10 MiB pool baseline + ~0.60 MiB/graph (P3, measured)
+
+Measured in `capsules/013c_graph_mem_slope.py` (fresh pool per round, all graphs
+kept alive, VRAM sampled per capture): rounds of 4/8/16/32 graphs give a
+**~9.65 MiB fixed baseline on first capture, then 0.60–0.71 MiB per graph**,
+stable across round sizes.
+
+**A naive measurement suggested 125 MiB for 24 tiny graphs and looked like a
+leak. It was not** — that was the caching allocator reusing memory an earlier
+test had already churned. The real cost is ~5x lower. The genuine issue is the
+**non-return**: F-009 latches released pools, so graph memory is not given back
+in this torch version.
+
+vLLM projection at 0.60 MiB/graph (piecewise, several graphs per layer):
+28L × 4 ≈ 70 MiB, 36L × 8 ≈ 180 MiB. A real memory-budget input for a 32 GB
+card, and worth backfilling into #51600's empty Test Plan.
+
+---
+
+## F-012 — NEGATIVE: single-GPU graph correctness is clean (constrains the hypothesis, refutes nothing)
+
+All on 0.6B, one B70, graph ON, `cudagraph_mode=FULL_AND_PIECEWISE` confirmed
+from the engine. `capsules/012_xpu_graph_micro.py`:
+
+| Probe | Result |
+|---|---|
+| capture+replay, 5 distinct inputs | **bit-exact** every time |
+| 32 replays of one graph | **1** distinct output signature |
+| 24 graphs of increasing width in **one shared pool**, replayed twice | **0** cross-contamination |
+| 16 replays while 64 unrelated live tensors held | **0/64 corrupted** — the pool IS a real isolation boundary |
+| `empty_cache()` with a live graph | no wedge (relevant to pytorch#187931, which we predate) |
+| recycled input pointer | does **not** fire; `replacement_corrupted=False` |
+| re-capture into an existing `XPUGraph` | **refused by torch** (correct; use a new instance per shape) |
+
+So shape carryover, pool aliasing, and replay non-determinism are all **negative**
+at the torch level on one B70, when the pool is used the way vLLM uses it (one
+long-lived pool, graphs never released). That is the opposite of what a "graph
+pool is not a real boundary" theory predicts.
+
+**This does NOT refute #48327 or #48946.** Both are 2-device reports; a shared
+pool behaving on one device says nothing about a second device's queue affinity
+or a CCL collective inside a capture.
+
+---
+
 ## Measured baselines
 
 GEMM, 4096³, 30 iters, desktop session live, all outputs finite:
@@ -482,3 +602,51 @@ constraint on kernel design: no SLM-heavy tiling will fit, so XPU kernels must
 lean on the 24 MB LLC and plain USM.
 
 VRAM: 30.88 GiB free of 31.89 GiB (desktop holds ~1.0 GiB).
+
+---
+
+## F-009 — GPU lane contention: two capsules ran concurrently (ORCHESTRATION FAILURE)
+
+**Status: root-caused, prevented by tooling.**
+
+On 2026-09-27 two subagents ran GPU capsules at the same time, holding
+**9.18 GiB** of the B70's 31.89 GiB between them (a `012_mtp_k4.py` run at 3.2 GB
+plus a `VLLM::EngineCore` at 4.7 GB RSS). The live desktop baseline is ~1.0 GiB,
+so this was unmistakable.
+
+**This was my orchestration failure, not an agent defect.** The effort is
+explicitly built around one scarce hardware lane, and I dispatched two
+GPU-touching agents in parallel with only "keep each run under ~3 min" in their
+briefs. That reads as permission to run, with no mechanism to coordinate. A
+single-lane system needs the lane *enforced*, not *documented*.
+
+### Why it matters beyond wasted time
+
+Contended runs do not merely add noise. They produce numbers that look
+trustworthy and are not: both jobs distort each other's timings and can OOM
+mid-run. A perf result from a contended window is **junk**, and it is more
+dangerous than no result because it will get committed and compared.
+
+### Fix: enforce the lane, do not request it
+
+- `tools/with_gpu_lock.sh` — the lock. Blocks with a visible wait (prints holder
+  and hold time), breaks stale locks via heartbeat, and **hard-fails** if VRAM is
+  already dirty from a process that bypassed it.
+- `tools/gpu_run.sh` — the only sanctioned GPU entry point. Wraps the lock, then
+  **verifies exclusivity afterwards**: if VRAM is still in use once the command
+  exits, the run is marked INVALID (rc 75) so its timings cannot be reported.
+  A lock that is merely advisory is what failed the first time.
+- `capsules/001_first_light.sh` now takes the lock via a `--locked` re-entry
+  guard, so compliance is structural rather than a convention.
+- `AGENT_CONTRACT.md` states the rule, the exact command, and the honesty
+  requirements for every agent.
+
+Verified: uncontended acquire/release; B blocked 20s while A held the lane and
+then acquired cleanly; the refusal path returns rc 75 with a squatter hunt
+command.
+
+Residual risk, stated honestly: a determined agent can still bypass the lock by
+invoking `python` directly. The post-check catches the *consequence* (a
+contended run is flagged invalid) but cannot prevent the contention. The real fix
+is that GPU-touching work is dispatched **one at a time**, which is the
+discipline I failed to apply in the first place.

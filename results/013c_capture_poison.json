@@ -1,0 +1,275 @@
+{
+  "started": "2026-09-27T19:28:13+0200",
+  "per_k": [
+    {
+      "k": 1,
+      "T": 2,
+      "a1_distinct_eager_before_capture": 1,
+      "a1_values": [
+        [
+          0.142,
+          60.76
+        ]
+      ],
+      "capture_ok": true,
+      "a3_distinct_eager_after_capture": 1,
+      "a3_values": [
+        [
+          0.142,
+          60.76
+        ]
+      ],
+      "eager_stable_across_capture": true,
+      "a5_distinct_replays": 20,
+      "a5_values": [
+        [
+          0.142,
+          60.76
+        ],
+        [
+          0.122,
+          62.133
+        ],
+        [
+          0.211,
+          59.277
+        ],
+        [
+          0.146,
+          56.724
+        ]
+      ],
+      "replay_matches_eager": false
+    },
+    {
+      "k": 2,
+      "T": 3,
+      "a1_distinct_eager_before_capture": 1,
+      "a1_values": [
+        [
+          -0.994,
+          109.21
+        ]
+      ],
+      "capture_ok": true,
+      "a3_distinct_eager_after_capture": 1,
+      "a3_values": [
+        [
+          -0.994,
+          109.21
+        ]
+      ],
+      "eager_stable_across_capture": true,
+      "a5_distinct_replays": 20,
+      "a5_values": [
+        [
+          -0.994,
+          109.21
+        ],
+        [
+          -0.901,
+          116.867
+        ],
+        [
+          -0.652,
+          113.47
+        ],
+        [
+          -0.442,
+          110.663
+        ]
+      ],
+      "replay_matches_eager": false
+    },
+    {
+      "k": 3,
+      "T": 4,
+      "a1_distinct_eager_before_capture": 1,
+      "a1_values": [
+        [
+          136163885056.0,
+          34561484390400.0
+        ]
+      ],
+      "capture_ok": true,
+      "a3_distinct_eager_after_capture": 1,
+      "a3_values": [
+        [
+          136163885056.0,
+          34561484390400.0
+        ]
+      ],
+      "eager_stable_across_capture": true,
+      "a5_distinct_replays": 20,
+      "a5_values": [
+        [
+          136163885056.0,
+          34561484390400.0
+        ],
+        [
+          131969581056.0,
+          23983860744192.0
+        ],
+        [
+          172771770368.0,
+          14170048167936.0
+        ],
+        [
+          83751862272.0,
+          9238190489600.0
+        ]
+      ],
+      "replay_matches_eager": false
+    },
+    {
+      "k": 4,
+      "T": 5,
+      "a1_distinct_eager_before_capture": 1,
+      "a1_values": [
+        [
+          -281.719,
+          143489.453
+        ]
+      ],
+      "capture_ok": true,
+      "a3_distinct_eager_after_capture": 1,
+      "a3_values": [
+        [
+          -281.719,
+          143489.453
+        ]
+      ],
+      "eager_stable_across_capture": true,
+      "a5_distinct_replays": 14,
+      "a5_values": [
+        [
+          -281.719,
+          143489.453
+        ],
+        [
+          199.156,
+          181268.531
+        ],
+        [
+          358.303,
+          191160.078
+        ],
+        [
+          562.367,
+          192138.922
+        ]
+      ],
+      "replay_matches_eager": false
+    },
+    {
+      "k": 5,
+      "T": 6,
+      "a1_distinct_eager_before_capture": 1,
+      "a1_values": [
+        [
+          1.343,
+          207.211
+        ]
+      ],
+      "capture_ok": true,
+      "a3_distinct_eager_after_capture": 1,
+      "a3_values": [
+        [
+          1.343,
+          207.211
+        ]
+      ],
+      "eager_stable_across_capture": true,
+      "a5_distinct_replays": 16,
+      "a5_values": [
+        [
+          1.343,
+          207.211
+        ],
+        [
+          1.277,
+          206.965
+        ],
+        [
+          1.238,
+          206.433
+        ],
+        [
+          1.318,
+          206.794
+        ]
+      ],
+      "replay_matches_eager": false
+    },
+    {
+      "k": 6,
+      "T": 7,
+      "a1_distinct_eager_before_capture": 1,
+      "a1_values": [
+        [
+          0.784,
+          177.899
+        ]
+      ],
+      "capture_ok": true,
+      "a3_distinct_eager_after_capture": 7,
+      "a3_values": [
+        [
+          0.784,
+          177.899
+        ],
+        [
+          4.484248222721638e+16,
+          4.709814132671513e+18
+        ],
+        [
+          0.738,
+          186.147
+        ],
+        [
+          1.212,
+          640.552
+        ]
+      ],
+      "eager_stable_across_capture": false,
+      "a5_distinct_replays": 11,
+      "a5_values": [
+        [
+          0.784,
+          177.899
+        ],
+        [
+          0.98,
+          184.86
+        ],
+        [
+          1.125,
+          186.884
+        ],
+        [
+          1.109,
+          187.479
+        ]
+      ],
+      "replay_matches_eager": false
+    }
+  ],
+  "ok": true,
+  "summary": {
+    "eager_unstable_after_capture": [
+      6
+    ],
+    "replay_disagrees_with_eager": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "eager_multiple_distinct": [
+      6
+    ]
+  },
+  "finished": "2026-09-27T19:28:13+0200"
+}

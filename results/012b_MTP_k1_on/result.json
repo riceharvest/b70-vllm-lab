@@ -1,0 +1,3990 @@
+{
+  "k": 1,
+  "graph_requested": "on",
+  "graph_env": "1",
+  "torch_compile_disable": null,
+  "model": "Qwen/Qwen3.5-0.8B-Base",
+  "repeats": 48,
+  "started": "2026-09-27T19:23:53+0200",
+  "ok": true,
+  "cudagraph_mode_requested": "FULL_DECODE_ONLY",
+  "engine_start_s": 347.72,
+  "effective_cudagraph_mode": "FULL_DECODE_ONLY",
+  "cudagraph_capture_sizes": [
+    1,
+    2,
+    4
+  ],
+  "max_cudagraph_capture_size": 4,
+  "num_speculative_tokens_effective": 1,
+  "block_size": 1024,
+  "enforce_eager": false,
+  "vram_free_gib_after_start": 21.05,
+  "cases": {
+    "capital": {
+      "prompt": "The capital of France is",
+      "distinct_texts": 1,
+      "distinct_token_ids": 1,
+      "distinct_first_pos_top5": 1,
+      "texts": [
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels",
+        " Paris. The capital of Belgium is Brussels"
+      ],
+      "first_pos_logprob_top1": [
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821,
+        -1.264821
+      ],
+      "first_pos_lp_spread": 0.0,
+      "runs": [
+        {
+          "i": 0,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 1,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 2,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 3,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 4,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 5,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 6,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 7,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 8,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 9,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 10,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 11,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 12,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 13,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 14,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 15,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 16,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 17,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 18,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 19,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 20,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 21,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 22,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 23,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 24,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 25,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 26,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 27,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 28,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 29,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 30,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 31,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 32,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 33,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 34,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 35,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 36,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 37,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 38,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 39,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 40,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 41,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 42,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 43,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 44,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 45,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 46,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 47,
+          "text": " Paris. The capital of Belgium is Brussels",
+          "token_ids": [
+            11751,
+            13,
+            561,
+            6511,
+            314,
+            31868,
+            369,
+            35938
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " Paris",
+              -1.264821
+            ],
+            [
+              " the",
+              -2.514821
+            ],
+            [
+              ":",
+              -2.764821
+            ],
+            [
+              " ______",
+              -2.827321
+            ],
+            [
+              " located",
+              -3.077321
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        }
+      ],
+      "first_run_token_sha256": "08e9c33e968945b7f0f779e121889c72569210aaa9381ffab0a9fb1ab45da9db"
+    },
+    "motion": {
+      "prompt": "The three laws of motion were formulated by",
+      "distinct_texts": 1,
+      "distinct_token_ids": 1,
+      "distinct_first_pos_top5": 1,
+      "texts": [
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1",
+        " the English scientist Isaac Newton in 1"
+      ],
+      "first_pos_logprob_top1": [
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426,
+        -2.112426
+      ],
+      "first_pos_lp_spread": 0.0,
+      "runs": [
+        {
+          "i": 0,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 1,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 2,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 3,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 4,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 5,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 6,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 7,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 8,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 9,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 10,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 11,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 12,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 13,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 14,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 15,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 16,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 17,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 18,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 19,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 20,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 21,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 22,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 23,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 24,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 25,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 26,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 27,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 28,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 29,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 30,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 31,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 32,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 33,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 34,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 35,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 36,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 37,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 38,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 39,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 40,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 41,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 42,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 43,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 44,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 45,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 46,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        },
+        {
+          "i": 47,
+          "text": " the English scientist Isaac Newton in 1",
+          "token_ids": [
+            279,
+            6163,
+            26578,
+            40134,
+            20042,
+            303,
+            220,
+            16
+          ],
+          "n_tokens": 8,
+          "first_pos_top": [
+            [
+              " the",
+              -2.112426
+            ],
+            [
+              " Sir",
+              -2.112426
+            ],
+            [
+              " Isaac",
+              -2.112426
+            ],
+            [
+              ":",
+              -2.737426
+            ],
+            [
+              "\n\n",
+              -2.862426
+            ]
+          ],
+          "num_accepted": null,
+          "spec_metrics": null
+        }
+      ],
+      "first_run_token_sha256": "9da97404c9c78cb81de2987bf7c143aec7f00afcbde18b644f5303862c8ac091"
+    }
+  },
+  "finished": "2026-09-27T19:29:58+0200"
+}
