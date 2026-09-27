@@ -5,25 +5,25 @@
   "platform": "xpu",
   "torch": "2.13.0+xpu",
   "xpu_graph_enabled": true,
-  "vram_free_gib_before": 30.9,
+  "vram_free_gib_before": 30.92,
   "vram_total_gib": 31.89,
-  "load_seconds": 105.81,
-  "generate_seconds": 0.138,
+  "load_seconds": 123.81,
+  "generate_seconds": 0.136,
   "output_tokens": 32,
-  "decode_tok_s": 232.46,
+  "decode_tok_s": 234.89,
   "completion": " Paris. The capital of France is also the capital of the French Republic. The capital of France is also the capital of the French government. The capital of France",
   "mentions_paris": true,
   "long_prompt_seconds": 0.056,
   "long_prompt_out_tokens": 16,
   "long_prompt_completion": " (This is a list of 100000000",
-  "vram_free_gib_after": 4.45,
-  "vram_used_delta_gib": 26.46,
+  "vram_free_gib_after": 4.48,
+  "vram_used_delta_gib": 26.44,
   "verdict": "PASS"
 }
-INFO 09-27 16:05:43 [utils.py:632] [shutdown] Process manager: send sigterm to process EngineCore
-(EngineCore pid=2895543) INFO 09-27 16:05:43 [core.py:1342] [shutdown] EngineCore: trigger received signal=SIGTERM
-(EngineCore pid=2895543) INFO 09-27 16:05:43 [core.py:1493] [shutdown] EngineCore: start mode=drain timeout=5s
-(EngineCore pid=2895543) INFO 09-27 16:05:43 [core.py:1524] [shutdown] EngineCore: request processing complete; starting resource teardown
-(EngineCore pid=2895543) INFO 09-27 16:05:43 [core.py:1355] [shutdown] EngineCore: exiting busy loop
-(EngineCore pid=2895543) INFO 09-27 16:05:43 [xpu_worker.py:228] XPUWorker shutdown: cleaning up (rank=0, local_rank=0)
-(EngineCore pid=2895543) INFO 09-27 16:05:44 [xpu_worker.py:238] XPUWorker shutdown: done (rank=0, local_rank=0)
+INFO 09-27 18:46:12 [utils.py:632] [shutdown] Process manager: send sigterm to process EngineCore
+(EngineCore pid=2154047) INFO 09-27 18:46:12 [core.py:1342] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=2154047) INFO 09-27 18:46:12 [core.py:1493] [shutdown] EngineCore: start mode=drain timeout=5s
+(EngineCore pid=2154047) INFO 09-27 18:46:12 [core.py:1524] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=2154047) INFO 09-27 18:46:12 [core.py:1355] [shutdown] EngineCore: exiting busy loop
+(EngineCore pid=2154047) INFO 09-27 18:46:12 [xpu_worker.py:228] XPUWorker shutdown: cleaning up (rank=0, local_rank=0)
+(EngineCore pid=2154047) INFO 09-27 18:46:12 [xpu_worker.py:238] XPUWorker shutdown: done (rank=0, local_rank=0)
