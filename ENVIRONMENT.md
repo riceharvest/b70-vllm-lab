@@ -63,18 +63,77 @@ system loader *after* setvars rather than before it.
 
 | Field | Value |
 |---|---|
-| Python | 3.12.12 (venv at `/mnt/ssd/b70-venv`) |
+| Python | 3.12.12 (**mandatory** — the kernels wheel is cp312-specific) |
+| venv | `/mnt/ssd/b70-venv` |
 | torch | 2.13.0+xpu (matches vLLM 0.30.0's `torch==2.13.0` pin) |
-| triton | triton-xpu 3.7.2 |
-| oneMKL | 2026.0.0 (sycl-blas/dft/lapack/rng/sparse) |
-| vLLM | 0.30.0 (universal wheel; XPU support via `vllm_xpu_kernels`) |
+| triton | triton-xpu 3.7.2 (+ `triton==3.7.2+xpu` shim from wheels.vllm.ai) |
+| oneMKL | 2026.0.0 |
+| vLLM | 0.30.0 **XPU wheel** + vllm_xpu_kernels 0.1.14.1 |
 
-Sanity check after any env change:
+### CRITICAL: `pip install vllm` gives you the CUDA build
+
+**The default `vllm==0.30.0` on PyPI is the CUDA wheel.** Installing it into an
+XPU venv silently succeeds and produces a broken environment. Observed damage:
+
+- ~2 GB of `nvidia-*`, `nvidia-cutlass-dsl`, `flashinfer-python` packages pulled in
+- `triton==3.8.0` (CUDA) installed **alongside** `triton-xpu 3.7.2`, shadowing it
+- vLLM logs `triton not found; flop counting will not work for triton kernels`
+- **`vllm.platforms.current_platform` resolves to `None`** — the CUDA wheel has no
+  XPU platform plugin at all, so nothing selects the B70
+
+`torch.xpu.is_available()` still returns `True` after this, which makes the
+breakage easy to miss. **Check `current_platform`, not just torch.**
+
+Correct install — the XPU wheel is a GitHub release asset, and **both** extra
+indexes are mandatory (`wheels.vllm.ai/xpu/` serves the only wheel satisfying
+vLLM's `triton==3.7.2+xpu` pin; without it the resolve fails):
 
 ```bash
-env -u LD_LIBRARY_PATH /mnt/ssd/b70-venv/bin/python -c \
-  "import torch; print(torch.__version__, torch.xpu.is_available())"
+uv venv --python 3.12 /mnt/ssd/b70-venv
+uv pip install --python /mnt/ssd/b70-venv/bin/python \
+  torch==2.13.0+xpu torchvision==0.28.0+xpu torchaudio==2.11.0+xpu \
+  --index-url https://download.pytorch.org/whl/xpu
+
+uv pip install --python /mnt/ssd/b70-venv/bin/python \
+  "https://github.com/vllm-project/vllm/releases/download/v0.30.0/vllm-0.30.0+xpu-cp38-abi3-manylinux_2_34_x86_64.whl" \
+  "vllm_xpu_kernels==0.1.14.1" \
+  --extra-index-url https://download.pytorch.org/whl/xpu \
+  --extra-index-url https://wheels.vllm.ai/xpu/ \
+  --index-strategy unsafe-best-match
 ```
+
+Pin `vllm_xpu_kernels` exactly — 0.30.0 pairs with **0.1.14.1** (PyPI also has
+0.1.15.4, but the ABI is matched to the release; don't float it).
+`vllm_xpu_kernels` comes from **PyPI**, not wheels.vllm.ai.
+
+**Post-install verification — all three must hold:**
+
+```bash
+env -u LD_LIBRARY_PATH /mnt/ssd/b70-venv/bin/python -c "
+import vllm, torch, vllm_xpu_kernels
+from vllm.platforms import current_platform
+print(vllm.__version__, torch.__version__, torch.xpu.is_available(), torch.xpu.device_count())
+print('platform:', current_platform.device_name)"
+```
+
+Expect `0.30.0 2.13.0+xpu True 1` and `platform: Intel(R) Arc(TM) Pro B70 Graphics`.
+Also confirm no contamination: `uv pip list | grep -i nvidia` must be empty.
+
+### Where the XPU kernels actually live
+
+XPU custom SYCL kernels were **migrated out of vLLM** into a separate repo:
+`vllm-project/vllm-xpu-kernels` (RFC vllm-project/vllm#33214, closed Jun 2026).
+`csrc/` in vLLM main has **no `xpu/` directory** any more.
+
+Integration is import-time op registration: `vllm/platforms/xpu.py` does
+`import vllm_xpu_kernels._C / ._moe_C / ._xpu_C`, and that import *is* the
+integration. There is no vLLM-side build step for XPU. Extensions: `_C`
+(norm/activation/RoPE/cache/quant/topk), `_vllm_fa2_C` (flash attn), `_moe_C`,
+`_xpu_C` (LoRA, grouped GEMM, GDN, MQA logits, samplers), `xpumem_allocator`.
+
+Building from source is only justified when the `default` attention kernel
+presets miss a model/head_size combination (e.g. Gemma-2 at head_size 256 needs
+the `full` preset, ~60 min build vs ~2 min).
 
 ### Device properties (from torch, authoritative)
 
