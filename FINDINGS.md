@@ -231,7 +231,7 @@ there is no working engine to validate it with.
 
 ---
 
-## F-005 — XPU CUDA-graphs are off by default (P1)
+## F-005 — XPU CUDA-graphs are off by default (P1) — RESOLVED UPSTREAM
 
 ```
 WARNING [xpu.py:303] XPU Graph is disabled by environment variable,
@@ -240,8 +240,119 @@ WARNING [xpu.py:308] XPU Graph support is experimental and currently only
         supports single-GPU execution.
 ```
 
-CUDA users get graphs enabled by default. XPU users must opt in via env var.
-Feature-parity gap worth tracking separately from F-004.
+**Status: CLOSED as a local-version artifact. The upstream gap no longer exists.**
+
+Root cause of the local observation: vLLM **0.30.0 was published 2026-09-22**, and
+upstream **PR #51600 `[XPU] enable XPU GRAPH by default` merged 2026-09-24**, two days
+later. It removes the `VLLM_XPU_ENABLE_XPU_GRAPH` env var and the experimental
+warning entirely, and enables graphs by default unless `--enforce-eager`. Verified
+against current main: the `envs.VLLM_XPU_ENABLE_XPU_GRAPH` branch in
+`vllm/platforms/xpu.py` no longer exists.
+
+The default-off was **deliberate**, not an oversight — PR #38193 (merged
+2026-03-26): *"require a specific driver version, it's not stable yet. so we decide
+disable it by default."* The stated reason (driver-version instability) was later
+addressed by torch XPU 2.14 switching SYCL Graph -> Level Zero Graph (#56013).
+
+**Do not file an "enable by default" issue — it is a duplicate of merged #51600.**
+
+### Measured impact on the B70 (interleaved A B B A B A, 3 runs/arm)
+
+Capsule `010_xpu_graph_ab.py`. Qwen3-0.6B, desktop session live, 12 runs, all OK.
+
+| config | decode tok/s OFF | ON | speedup |
+|---|---|---|---|
+| baseline (8x96, mbt 2048) | 494 | 2060 | **4.16x** |
+| heavy (32x128, mbt 16384) | 1810 | 7340 | **4.04x** |
+
+TTFT 0.67x, ITL 0.22x. Token counts identical across arms (768/4096), so the
+speedup is not a truncation artifact. Each arm is internally deterministic
+(1 distinct sha256 per arm over 3 runs), and zero requests flagged corrupted.
+
+**Caveat, stated plainly:** this is a 0.6B model, where launch overhead
+dominates. "4x" is **not** a general XPU claim. It does match #51600's own
+wording ("small models and MoE models under low concurrency"), so it
+corroborates the PR rather than extending it. Larger models will see less.
+
+The two arms produce *different text*. Traced to an **exact 0.000000-nat tie**
+(`' is'` vs `' involves'`, both -1.54230) where the graph path's different
+reduction order picks the other member. Both outputs are coherent — a benign
+tie-break, not the #54785 corruption class. Recorded because "graphs change your
+output" is the kind of claim that must not be reported without evidence.
+
+### Still open, and the real risk
+
+Five graphs-on bugs remain unaddressed: #48327, #54698, #54785, #48946, and
+vllm-xpu-kernels #567. Not reproduced on this single B70, but they are 2x-B70
+and concurrent-load reports, so a clean single-GPU run is not a refutation.
+
+**Actionable gap:** PR #51600's **Test Plan and Test Result sections are empty**,
+and no user-facing doc mentions XPU graphs. The benchmark above can backfill
+both — that is a concrete, high-value contribution to offer upstream.
+
+---
+
+## F-008 — Xe2 grouped-GEMM data race: fixed upstream, but vLLM 0.30.0 can never get it
+
+**Status: FIXED upstream (PR #586, commit `3d74ec9`, 2026-09-10), but our env is
+vulnerable and there is no release path to 0.30.0.**
+
+`csrc/xpu/grouped_gemm/xe_2/grouped_gemm_xe2_interface.hpp:252` at tag `v0.1.14`:
+
+```cpp
+at::Tensor atomic_buffer =
+    at::empty({static_cast<long>(1)}, ptr_A.options().dtype(at::kInt));
+```
+
+`3d74ec9` changes `at::empty` -> `at::zeros` and deletes the in-kernel
+`atm.store(0)`. The race: the grid is persistent
+(`global(1, sm_count*512/wg_size, 1)`), lane 0 of every workgroup steals tiles
+via `cutlass::atomicAdd(atomic_buffer, 1)` (`grouped_gemm_xe2.hpp:229`) behind
+only a workgroup-local barrier, while the reset was workgroup 0 / lane 0 with no
+device-wide barrier. A steal landing first yields a garbage ticket and every
+later ticket is garbage+1, +2, ... so tiles in
+`[group_range, group_range+garbage)` are never computed, keeping whatever
+`torch.empty` left. **Silently wrong output, not a crash.**
+
+**Why it could never reach vLLM 0.30.0:** the fix is in `v0.1.15` and PyPI
+`0.1.15.1/.3/.4`, but 0.30.0 pins `vllm_xpu_kernels==0.1.14.1` and **there is no
+`release/0.30` branch** in the kernels repo. Tag `v0.1.14.1` does not exist
+(PyPI-only patch), so there is nothing to pin to a fixed build.
+
+Our venv runs **0.1.14.1** and is therefore pre-fix.
+
+### Reachability is broad — no quantization required
+
+`oracle/unquantized.py` sets `_AVAILABLE_BACKENDS = [XPU, TRITON]` on XPU, so XPU
+is **first**, i.e. the default. Smallest trigger: `axolotl-ai-co/tiny-mixtral-30m`
+(8 experts, hidden 256) — the same model upstream uses for its XPU MoE coverage.
+
+### Honest reproduction result
+
+- Op callable and correct (max err 0.5 bf16, no NaN).
+- **Uninitialized read is real: 60/60.** Recycling a poisoned 1-element int32
+  block makes `at::empty` return `100000` intact.
+- **But the eager race never fired: 0/60 wrong outputs.** Workgroup 0's
+  `store(0)` is the kernel's first instruction and the first `atomicAdd` only
+  happens after a full GEMM tile, so it always wins an eager launch.
+
+**Latent in eager, real under graph replay.** No wrong output was observed and
+none is claimed. The value here is the binary proof plus the version analysis,
+not a reproduced corruption.
+
+Residual structural hazard tracked by **PR #457** (open): the work-steal design
+is not cudagraph-capture-safe. #586 fixes the garbage value; #457 removes the
+class.
+
+### Two traps worth keeping
+
+- `cutlass_grouped_gemm_interface` in `_xpu_C.abi3.so` is a 1.9 KB dispatcher;
+  the `at::empty` lives in the out-of-line `MoE::cutlass_grouped_gemm_xe2_impl`
+  in `libgrouped_gemm_xe_2.so`. A first ELF pass that only inspects the
+  dispatcher reads "inconclusive" and is wrong.
+- **`torch.profiler` sees 0 kernels** for these calls (raw `sycl::queue`
+  submits). Trusting it would have "confirmed" the pre-fix state from a broken
+  instrument.
 
 ---
 
@@ -262,6 +373,94 @@ The Level Zero device aspect looks like the clean way to query free VRAM, but
 its vendor struct is version-sensitive and undocumented in the installed
 headers; the probe segfaults. Use `torch.xpu.mem_get_info(0)` via
 `tools/b70_vram.py` instead.
+
+---
+
+## F-008 — Xe2 grouped-GEMM tile counter is allocated uninitialized (P2, FIXED upstream)
+
+**Status: CONFIRMED in source and in the shipped binary. Already fixed upstream
+(#586) and shipped to PyPI. Not filed — would have been a duplicate.**
+
+Claim: in `vllm_xpu_kernels` 0.1.14.1, the Xe2 grouped-GEMM persistent-workgroup
+scheduler counter is allocated with `at::empty()` (uninitialized).
+
+### Root cause (verified by diff, not by the report)
+
+`csrc/xpu/grouped_gemm/xe_2/grouped_gemm_xe2_interface.hpp:252` at tag `v0.1.14`:
+
+```cpp
+at::Tensor atomic_buffer =
+    at::empty({static_cast<long>(1)}, ptr_A.options().dtype(at::kInt));
+```
+
+`MoEGEMMLauncher` launches a **persistent** grid
+(`global(1, sm_count*512/wg_size, 1)`). Every workgroup's lane 0 steals the next
+tile with `cutlass::atomicAdd(atomic_buffer, 1)` (`grouped_gemm_xe2.hpp:229`)
+guarded only by a **workgroup-local** barrier. Pre-fix, the counter was reset by
+workgroup 0 / lane 0 (`grouped_gemm_xe2.hpp:105-112`) with **no device-wide
+barrier**. If any steal lands before that store, that workgroup's ticket is
+garbage and every later ticket is garbage+1, +2, ... Tiles in
+`[group_range, group_range+garbage)` are never computed and keep whatever
+`torch.empty` left in `ptr_D` — **silently wrong MoE output, not a crash**.
+
+### Upstream status: fixed, merged, released
+
+| | |
+|---|---|
+| PR | **#586** `fix: initialize atomic_buffer to 0 to avoid race conditions` |
+| commit | `3d74ec9` (2026-09-10), ancestor of `v0.1.15` and `origin/main` |
+| change | `at::empty` → `at::zeros` **and** deletes the in-kernel `store(0)` |
+| in tag `v0.1.14`? | **NO** (`git merge-base --is-ancestor 3d74ec9 v0.1.14` → false) |
+| on PyPI? | **YES** — `0.1.15.1/.3/.4` (2026-09-17/22) all post-date the fix |
+| our venv | `0.1.14.1` (PyPI 2026-08-28) — **vulnerable** |
+
+Both halves of the fix are present on `origin/main` (`:255-256` is `at::zeros`;
+the in-kernel `atm.store(0)` is gone, only the `atomicAdd` remains at `:220`).
+The fix is **sufficient** for the reported defect. Note **PR #457** (still open)
+attacks the *remaining* structural hazard — the work-steal design itself is not
+cudagraph-capture-safe — and explicitly calls the reset-vs-steal ordering "a
+latent race rather than a guaranteed-safe design". #586 fixes the garbage-value
+bug; #457 removes the class. Both are worth tracking.
+
+### Reachability on B70: every unquantized MoE model, no quantization needed
+
+`fused_moe/oracle/unquantized.py` sets `_AVAILABLE_BACKENDS = [XPU, TRITON]` on
+`is_xpu()` — **XPU is first, so it is the default**. `XPUExperts.__init__`
+raises unless `is_xe2_arch() or is_xe3_arch()`; B70 is `intel_gpu_bmg_g31`, and
+`csrc/utils.h:74-78` matches it. Smallest model that triggers it:
+**`axolotl-ai-co/tiny-mixtral-30m`** (MixtralForCausalLM, 8 experts, hidden 256)
+— the same model upstream used for its own XPU MoE coverage (PR #604).
+
+### Measured on this box (`capsules/004*`)
+
+- Op is callable and numerically correct (`003`: max err 0.5 bf16, no NaN).
+- **The uninitialized read is real, 60/60**: recycling a poisoned 1-elem int32
+  block makes `at::empty` return `100000` intact, every time.
+- **But the eager race never fired: 0/60 wrong outputs** (max err stayed 0.5).
+  Workgroup 0's `store(0)` is the kernel's *first* instruction while the first
+  `atomicAdd` only happens after a full GEMM tile, so it wins every eager launch.
+  **The bug is latent in eager and real under SYCL-graph replay** — consistent
+  with #457. Do not expect a short eager run to produce corruption.
+- **Binary A/B proves the venv is pre-fix**: the impl inside
+  `libgrouped_gemm_xe_2.so` calls `at::_ops::empty_memory_format::call` and has
+  **no** `zeros`; the 0.1.15.4 wheel is exactly the inverse. Positive control
+  included, so the method is falsifiable.
+
+### Traps hit (see skill `b70-xpu-kernels-upstream-audit`)
+
+- `cutlass_grouped_gemm_interface` in `_xpu_C.abi3.so` is only a 1.9 KB
+  **dispatcher**; the `at::empty` is in the out-of-line
+  `MoE::cutlass_grouped_gemm_xe2_impl` inside `libgrouped_gemm_xe_2.so`.
+- **`torch.profiler` sees 0 kernels** for these calls (raw `sycl::queue` submits).
+  "0 fill kernels ⇒ pre-fix" is a false positive from a broken instrument.
+- `objdump -R` filtered by function address finds 0 relocs (PIE); collect `call`
+  targets from the disassembly and demangle instead.
+- Probing "did the allocator recycle?" with `torch.zeros(1)` **writes 0 over the
+  poison** and yields a false negative. Use `torch.empty(1)` and read it.
+- There is **no `v0.1.14.1` tag** — the `.1` patches are PyPI-only.
+- There is **no `release/0.30` branch upstream** (verified via `git ls-remote`),
+  so this 0.1.15 fix can never reach vLLM 0.30.0, which pins `0.1.14.1`.
+  vLLM `main` pins `0.1.15.4`.
 
 ---
 
