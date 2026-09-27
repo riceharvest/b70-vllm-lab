@@ -69,6 +69,10 @@ release() {
 NAME="unnamed"
 if [ "${1:-}" = "--name" ]; then NAME="$2"; shift 2; fi
 
+# Strip a leading `--` separator. gpu_run.sh passes one through, and without
+# this it is treated as the command name -> "command not found" (exit 127).
+if [ "${1:-}" = "--" ]; then shift; fi
+
 if [ $# -eq 0 ]; then
   echo "usage: with_gpu_lock [--name LABEL] <command...>" >&2
   exit 64

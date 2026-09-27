@@ -650,3 +650,35 @@ invoking `python` directly. The post-check catches the *consequence* (a
 contended run is flagged invalid) but cannot prevent the contention. The real fix
 is that GPU-touching work is dispatched **one at a time**, which is the
 discipline I failed to apply in the first place.
+
+---
+
+## F-015 — Swarm concurrency caused host RAM/swap pressure (OPERATIONAL)
+
+**Status: swarm stopped, root cause understood, cap needed.**
+
+Dispatching 11 subagents at once put ~38 python/agent processes on a 62 GiB host
+that the user also uses as a desktop. Swap reached **6.9 of 8.0 GiB** and the
+user reported the system crashing. This was my operational failure: I scaled
+agent count in response to a request for faster development, without a resource
+ceiling, and without accounting for the fact that this is a *live desktop
+machine*, not a headless build box.
+
+Note the distinction that matters: at rest, `vmstat` si/so were both 0, so the
+swap was parked rather than thrashing. But a transient spike on a machine with
+only 8 GiB of swap and a compositor + browser + ClickHouse + java already
+resident is enough to stall a desktop, and the user saw the consequence even
+when the average looks calm. **Average resource use is the wrong metric for a
+system that must stay interactive.**
+
+### Required cap going forward
+
+- Never exceed a small, explicit agent count without asking first.
+- No agent may load a multi-GB model into host RAM while others run.
+- GPU capsules stay serialized (F-013) AND additionally serialize their host-RAM
+  model load, since a 5.5 GiB model load is a host-RAM event too.
+- Measure peak RSS, not just average, when deciding how many agents to run.
+
+The lesson is not "fewer agents, slower." It is that the scarce resources are
+BOTH the GPU and the host's ability to stay responsive, and both have to be
+budgeted explicitly.
