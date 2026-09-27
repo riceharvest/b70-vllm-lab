@@ -59,6 +59,62 @@ Use oneAPI **only** for offline compilation (`icpx`, `sycl-ls`, CMake builds),
 never in the same shell as a torch XPU run. If you must have both, re-append the
 system loader *after* setvars rather than before it.
 
+### torch.compile needs Level Zero *devel* files (not just the runtime)
+
+`oneapi-level-zero-devel` is **not installed** on this host, and vLLM's
+`torch.compile` path needs both of its outputs. Without them the engine dies
+during KV-cache init, *after* weights have already loaded — so the log looks
+like it is working right up until it isn't:
+
+```
+fatal error: level_zero/ze_api.h: No such file or directory
+/usr/bin/ld: cannot find -lze_loader: No such file or directory
+```
+
+The system ships `libze_loader.so.1` but no unversioned `libze_loader.so` dev
+symlink, which is exactly what the `-devel` package provides. Staged rootlessly:
+
+```bash
+dnf download --destdir=/tmp/l0dev oneapi-level-zero-devel
+cd /tmp/l0dev && mkdir -p x && cd x
+rpm2cpio ../oneapi-level-zero-devel-*.rpm | cpio -idmu
+mkdir -p ~/.local/include/level_zero ~/.local/lib
+cp x/usr/include/level_zero/*.h ~/.local/include/level_zero/
+ln -sf /usr/lib64/libze_loader.so.1 ~/.local/lib/libze_loader.so
+```
+
+Then export, in every capsule that compiles:
+
+```bash
+export CPATH="$HOME/.local/include:$CPATH"
+export LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH"
+export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
+export PATH="/home/dario/oneapi/compiler/2025.3/bin:$PATH"   # icpx, libs NOT sourced
+export CXX=icpx
+```
+
+`LIBRARY_PATH` is the one that is easy to miss — fixing only `CPATH` moves the
+failure from "cannot find header" to "cannot find -lze_loader".
+
+This is a genuine P7 install-maturity gap: the documented XPU install does not
+mention the `-devel` requirement, and a clean machine following the docs hits
+this wall.
+
+### XPU CUDA-graphs are OFF by default
+
+vLLM logs `XPU Graph is disabled by environment variable, please set
+VLLM_XPU_ENABLE_XPU_GRAPH=1`. Also `XPU Graph support is experimental and
+currently only supports single-GPU execution`. CUDA users get graphs on by
+default; XPU users must opt in. That asymmetry is a P1 feature-parity finding.
+
+### Harness trap: never feed the engine from stdin
+
+vLLM v1 spawns the engine core in a separate process, and `multiprocessing`
+spawn re-imports `__main__` **by path**. Running the driver as `python -` (or a
+heredoc) makes that path `<stdin>`, and the child dies with
+`FileNotFoundError: /mnt/ssd/b70-vllm-lab/<stdin>` before the model loads. Always
+use a real `.py` file. This cost one full capsule run.
+
 ### Verified working stack
 
 | Field | Value |
