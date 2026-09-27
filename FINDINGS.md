@@ -38,7 +38,7 @@ nothing selects the B70.
 
 Do **not** verify with `current_platform.device_name`. Accessing it can return
 `None`/warn (`does not have 'device_name' attribute`) even on a perfectly good
-XPU install, because `device_name` lives on the resolved subclass, not the
+XPU install, because `device_name` lives on the resolved subclass, not on the
 `Platform` base. That produced one false "still broken" reading for me.
 
 Verify with either of these instead:
@@ -76,7 +76,7 @@ ImportError: libsycl.so.9: undefined symbol: urDeviceWaitExp, version LIBUR_LOAD
 `setvars.sh` prepends oneAPI 2025.3's bundled `libsycl.so.9` to
 `LD_LIBRARY_PATH`, shadowing the newer system UR loader
 (`/usr/lib64/libze_loader.so.1`, from `oneapi-level-zero` 1.28.6) that
-`torch 2.13.0+xpu` links against.
+`torch 2.13.0+xpu` is linked against.
 
 This is the **opposite** of the intuitive fix. I initially recorded "you must
 source setvars.sh" in the lab manifest because that is why `sycl-ls` appeared
@@ -93,7 +93,7 @@ compilation.
 
 `oneapi-level-zero-devel` is not installed. vLLM's `torch.compile` path needs
 both of its outputs, and fails *after* weights have loaded, so the log looks
-healthy right up to the crash:
+healthy right up until it isn't:
 
 ```
 fatal error: level_zero/ze_api.h: No such file or directory
@@ -106,6 +106,13 @@ symlink. Fixing only `CPATH` (headers) just moves the error to the linker —
 
 Workaround: stage both rootlessly under `~/.local` (see ENVIRONMENT.md).
 
+**Runtime half, found while fixing F-004:** Inductor's *generated* kernels
+`dlopen("libze_loader.so")` at run time, so `LD_LIBRARY_PATH=$HOME/.local/lib`
+is required at run time too, not just at compile time. This is safe and does
+**not** violate the F-002 rule: `~/.local/lib/libze_loader.so` is a symlink to
+the *system* `/usr/lib64/libze_loader.so.1` that `libtorch_xpu.so` is already
+linked against, so no oneAPI shadowing occurs.
+
 **Upstream angle:** a clean machine following the documented XPU install hits
 this wall. P7.
 
@@ -113,24 +120,88 @@ this wall. P7.
 
 ## F-004 — vLLM v1 engine cannot start on the B70: SYCL segfault (P0)
 
-**Status:** OPEN. Reproduced deterministically. Specialist assigned.
+**Status:** ROOT-CAUSED and FIX VERIFIED. The bug is in **triton
+(intel-xpu-backend-for-triton)** — not vLLM, not vllm-xpu-kernels.
 
-Every vLLM 0.30.0 XPU engine start on the B70 segfaults. Startup proceeds
-normally — platform `xpu` selected, Flash Attention backend chosen, weights
-loaded (1.12 GiB), `Using LBNHC KV cache layout` — then:
+### Crash site
+
+`triton/backends/intel/driver.py:364`, inside `XPUUtils.__init__`
+(driver.py:344):
+
+```python
+self.device_count = mod.init_devices(self.get_sycl_queue())
+```
+
+`init_devices` is a C symbol in the triton-compiled `spirv_utils*.so`, called
+over ctypes, and it dies on its first SYCL call. gdb pins the faulting library
+exactly:
 
 ```
-!!!!!!! Segfault encountered !!!!!
-  sycl::_V1::detail::context_impl::get_info<sycl::info::context::devices>()
-  sycl::context::get_devices()
-  init_devices
-  ffi_call
-  _call_function_pointer
-  _ctypes_callproc
-  PyCFuncPtr_call
-  slot_tp_init          <- during object __init__
-  type_call
+#0  sycl::detail::context_impl::get_info<sycl::info::context::devices>()
+        from /home/dario/oneapi/compiler/2025.3/lib/libsycl.so.8   <-- dies here
+#1  sycl::context::get_devices()       from libsycl.so.8
+#2  init_devices()                     from spirv_utils.cpython-312-...so
+#3  ffi_call ... #7 _ctypes_callproc  #8 PyCFuncPtr_call
 ```
+
+Note the `!!!!!!! Segfault encountered !!!!!!!` banner is **tvm_ffi's** signal
+handler (`tvm_ffi/src/ffi/backtrace.cc:156`), not vLLM's. That is why the
+trace looks like it starts mid-SYCL-call.
+
+### Root cause: two SYCL C++ runtimes in one process
+
+| Component | SYCL runtime it links |
+|---|---|
+| `libtorch_xpu.so` (torch 2.13.0+xpu) | **libsycl.so.9** — intel-sycl-rt 2026.0.0, `/mnt/ssd/b70-venv/lib` |
+| triton `spirv_utils.so` | **libsycl.so.8** — oneAPI 2025.3, `/home/dario/oneapi/compiler/2025.3/lib` |
+
+`XPUUtils.get_sycl_queue()` hands a `sycl::queue*` created by the .so.9
+runtime into code compiled against the .so.8 runtime. The object layouts and
+vtables differ, so `sycl::context::get_devices()` dereferences the wrong
+runtime's vtable and the process dies. Proven directly via `/proc/self/maps`:
+after `dlopen`ing the cached `spirv_utils.so`, **both** are mapped at once.
+
+Why triton picks the wrong one: `find_sycl()` (driver.py:50-56) probes
+`shutil.which("icpx")` **first**, so with oneAPI 2025.3 on `$PATH` it resolves
+SYCL headers+libs to that toolchain — even though the process has already
+loaded a different SYCL runtime via torch. It never reaches its
+`intel-sycl-rt` wheel branch (driver.py:67-91), which is the branch that
+matches torch.
+
+A second, independent bug makes it sticky: `compile_module_from_src()`
+(driver.py:288-294) keys the module cache on `__CACHE_VERSION + src +
+platform_key()` only. The SYCL runtime identity is **not** in the key, so a
+`spirv_utils.so` built against libsycl.so.8 is silently reused after the
+runtime changes. Any fix must also purge that cached entry.
+
+### Minimal standalone reproducer (no vLLM)
+
+`repro1_triton_init.py` — `torch.xpu` init, then `XPUUtils()`. Exits **139
+(SIGSEGV)** in seconds. `repro2_two_runtimes.py` additionally prints
+`/proc/self/maps` before/after to show both runtimes coexisting.
+
+### Verified fix
+
+Make `find_sycl()` prefer the SYCL runtime already loaded in the process, and
+fold that runtime into the module cache key. Patch lives at
+`/mnt/ssd/dev workspace/_f004_segfault/triton-intel-driver.patch` (upstream
+paths, targets `triton/backends/intel/driver.py`).
+
+A/B under an identical environment, icpx on `$PATH`, no env hack:
+
+| Run | `libsycl.so` linked | Result |
+|---|---|---|
+| baseline | `libsycl.so.8` | **SIGSEGV**, exit 139 |
+| patched | `libsycl.so.9` | `device_count = (1,)`, exit 0 |
+
+End-to-end, `LLM(model="Qwen/Qwen3-0.6B", enforce_eager=False)`:
+
+- **baseline** → segfaults with the exact reported trace
+- **patched** → engine starts in 157.8 s and generates
+  `" Paris. The capital of France is also the capital of the French Republic."`
+
+F-003 does not mask F-004: with `LD_LIBRARY_PATH=$HOME/.local/lib` applied, the
+segfault is gone in the patched run and F-003 is simply the next wall.
 
 ### What it is NOT (each hypothesis tested and eliminated)
 
@@ -141,25 +212,15 @@ loaded (1.12 GiB), `Using LBNHC KV cache layout` — then:
 | fork vs spawn | traced `get_mp_context()` | **already correctly `spawn`**; `xpu_is_initialized()=True` |
 | `vllm_xpu_kernels` import | import each of `_C`/`_moe_C`/`_xpu_C`/`xpumem_allocator` | all clean |
 | `XPUPluggableAllocator` construction | `get_pluggable_allocator(...)` | constructs fine; crash is later |
+| `xpumem.py` ctypes callbacks (original suspect) | gdb shows the ctypes frame belongs to **triton**, not the allocator | **ruled out** |
 
 Note the trap: a *manual* `os.fork()` test produces torch's
 `Cannot re-initialize XPU in forked subprocess` error, which looks like the
 answer but is a **different code path** — vLLM already uses spawn.
 
-### Where it points
-
-The frame chain `slot_tp_init → ffi_call → _ctypes_callproc` means a **ctypes
-callback from C++ into Python during object construction**, ending in a SYCL
-`context::get_devices()` on a context that is not valid in this process.
-`vllm/device_allocator/xpumem.py` is the prime suspect: it passes raw Python
-callbacks into the SYCL allocator via
-`xpumem_allocator.init_module(python_malloc_fn, python_free_func)` and then
-`XPUPluggableAllocator(lib_name, "my_malloc", "my_free")`, which **dlopens**
-`vllm_xpu_kernels/xpumem_allocator.abi3.so` and resolves SYCL symbols by name —
-a classic way to pick up a second, mismatched SYCL runtime.
-
-Last log line before death: `utils.py:320 Using LBNHC KV cache layout`, inside
-`core.py:308 _initialize_kv_caches → determine_available_memory`.
+The original suspicion that `vllm/device_allocator/xpumem.py` was at fault was
+wrong. The `ffi_call` / `_ctypes_callproc` frames are real, but they belong to
+triton's `SpirvUtils` (`driver.py:198`), not to the XPU pluggable allocator.
 
 ### Why this is P0
 

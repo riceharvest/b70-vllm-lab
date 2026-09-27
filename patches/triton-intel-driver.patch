@@ -1,0 +1,80 @@
+--- a/triton/backends/intel/driver.py
++++ b/triton/backends/intel/driver.py
+@@ -30,6 +30,41 @@
+ ARG_TUPLE = None
+ 
+ 
++def _sycl_runtime_already_loaded() -> tuple[list[str], list[str]] | None:
++    """Locate the SYCL C++ runtime already mapped in this process.
++
++    Returns ``(include_dirs, lib_dirs)`` for that runtime, or None.
++
++    A runtime that is already loaded owns the ``sycl::queue`` objects we are
++    about to be handed.  A triton module compiled against a *different*
++    libsycl will interpret them with the wrong ABI, and
++    ``sycl::context::get_devices()`` then dereferences a vtable belonging to
++    the wrong runtime -> SIGSEGV.
++
++    Both headers and libraries must come from the same runtime, so derive the
++    include dirs from the lib dir (wheel layout: ``<root>/lib`` next to
++    ``<root>/include``).  If no SYCL header is found there we return None so
++    the caller keeps its existing search order rather than building without
++    headers.
++    """
++    try:
++        with open("/proc/self/maps") as f:
++            maps = f.read()
++    except OSError:
++        return None
++    for line in maps.splitlines():
++        path = line.rpartition(" ")[-1]
++        if not os.path.basename(path).startswith("libsycl.so"):
++            continue
++        lib_dir = os.path.dirname(os.path.realpath(path))
++        root = os.path.dirname(lib_dir)
++        includes = [os.path.join(root, "include"), os.path.join(root, "include", "sycl")]
++        if not any(os.path.exists(os.path.join(d, "sycl", "sycl.hpp")) for d in includes):
++            return None
++        return includes, [lib_dir]
++    return None
++
++
+ def find_sycl(include_dir: list[str]) -> tuple[list[str], list[str]]:
+     """
+     Looks for the sycl library in known places.
+@@ -47,6 +82,16 @@
+     assertion_message = ("sycl headers not found, please install `icpx` compiler, "
+                          "or provide `ONEAPI_ROOT` environment "
+                          "or install `intel-sycl-rt>=2025.0.0` wheel")
++
++    # Probe an already-loaded SYCL C++ runtime first.  On a torch XPU install
++    # libtorch_xpu.so pulls in intel-sycl-rt (libsycl.so.N); silently shadowing
++    # it with the oneAPI toolchain found on $PATH is an ABI mismatch, not a
++    # preference.
++    loaded = _sycl_runtime_already_loaded()
++    if loaded:
++        loaded_include, loaded_libs = loaded
++        return include_dir + loaded_include, loaded_libs
++
+     icpx_path = shutil.which("icpx")
+     if icpx_path:
+         # only `icpx` compiler knows where sycl runtime binaries and header files are
+@@ -288,6 +333,18 @@
+ def compile_module_from_src(src: str, name: str):
+     hasher = hashlib.sha256(__CACHE_VERSION.encode("utf-8"))
+     hasher.update((src + platform_key()).encode("utf-8"))
++    # The compiled module links the resolved SYCL C++ runtime, so that runtime
++    # is part of its ABI.  Without folding it into the key, switching runtimes
++    # (oneAPI toolchain -> intel-sycl-rt wheel) silently reuses a stale
++    # spirv_utils.so built against the previous one.
++    for d in (COMPILATION_HELPER.libsycl_dir or []):
++        hasher.update(d.encode("utf-8"))
++        real = os.path.realpath(os.path.join(d, "libsycl.so"))
++        try:
++            with open(real, "rb") as f:
++                hasher.update(hashlib.sha256(f.read()).hexdigest().encode("utf-8"))
++        except OSError:
++            pass
+     key = hasher.hexdigest()
+     cache = get_cache_manager(key)
+     suffix = sysconfig.get_config_var("EXT_SUFFIX")
