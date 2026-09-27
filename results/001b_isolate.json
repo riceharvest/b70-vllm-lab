@@ -1,0 +1,15 @@
+[
+  {
+    "case": "A",
+    "returncode": 1,
+    "signal": null,
+    "stderr_tail": [
+      "    wait_for_engine_startup(",
+      "  File \"/mnt/ssd/b70-venv/lib/python3.12/site-packages/vllm/v1/engine/utils.py\", line 1320, in wait_for_engine_startup",
+      "    raise RuntimeError(",
+      "RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}",
+      "/home/dario/.local/share/uv/python/cpython-3.12-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+      "  warnings.warn('resource_tracker: There appear to be %d '"
+    ]
+  }
+]
